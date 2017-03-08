@@ -1,0 +1,27 @@
+body {
+    background: $white;
+    .container {
+        width: 60%;
+    }
+}
+
+// App
+.App {
+    .header-input {
+        padding: 6em 3em 4em;
+        background: #F5F5F5;
+        input.form-control {
+            background: $white;
+            box-shadow: 0 0 25px rgba(0,0,0,0.06);
+            border: none;
+            background: $white;
+            padding: 30px 20px;
+            border-radius: 4px;
+            font: $light 18px $roboto;
+            color: #666;
+        }
+        ::-webkit-input-placeholder {
+            color: #BBB;
+        }
+    }
+}

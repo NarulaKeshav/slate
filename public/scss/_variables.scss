@@ -1,0 +1,37 @@
+// Color Variable Declarations
+$white: #FFFFFF;
+$darker: #151515;
+$dark: #222;
+
+// Main colors
+$primary: #0084FF;
+$secondary: #007BED;
+
+// Font Declarations
+$roboto: 'Roboto', sans-serif;
+
+// Font Weight Declarations
+$thin: 100;
+$light: 300;
+$normal: 400;
+$bold: 700;
+
+// Color Schemes
+// $mint: #00BC9E;
+$mint: #3EC9BB;
+$sunflower: #FFCC43;
+$strawberry: #EC5463;
+$pool: #4EC2E7;
+$emerald: #42CB6F;
+$lavender: #CB93EE;
+$carrot: #F77E51;
+$rose: #EC87BF;
+$royal: #9398EC;
+
+// Mixin for hover transitions
+@mixin transition ($seconds) {
+    -webkit-transition: all $seconds ease-in-out;
+    -moz-transition: all $seconds ease-in-out;
+    -ms-transition: all $seconds ease-in-out;
+    transition: all $seconds ease-in-out;
+}
