@@ -16,3 +16,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Sass Cache
+/public/scss/.sass-cache
