@@ -1,5 +1,5 @@
 body {
-    background: $white;
+    background: $darker;
     .container {
         width: 60%;
     }
@@ -8,20 +8,81 @@ body {
 // App
 .App {
     .header-input {
-        padding: 6em 3em 4em;
-        background: #F5F5F5;
+        padding: 4em 3em;
+        // background: $primary;
+        // background-image: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+        // background-image: linear-gradient(45deg, #fa709a 0%, #fee140 100%);
+        background: linear-gradient(45deg, $primary 0%, $secondary 75%);
+        .AppLogo {
+            height: 50px;
+            margin: 0 auto;
+            margin-bottom: 3em;
+            border: 2px solid rgba(255,255,255,0.7);
+            border-radius: 6px;
+        }
         input.form-control {
-            background: $white;
-            box-shadow: 0 0 25px rgba(0,0,0,0.06);
+            @include transition(.3s);
+            background: $dark;
+            box-shadow: none;
             border: none;
-            background: $white;
-            padding: 30px 20px;
+            padding: 35px 25px;
             border-radius: 4px;
-            font: $light 18px $roboto;
-            color: #666;
+            font: $thin 22px $roboto;
+            color: $white;
+        }
+        input.form-control:hover,
+        input.form-control:focus {
+            background: $darker;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.1);
         }
         ::-webkit-input-placeholder {
-            color: #BBB;
+            color: rgba(255,255,255,0.7);
+        }
+    }
+}
+.TaskList {
+    padding-top: 2em;
+    .TaskRange {
+        padding: 2em 1em 1em;
+        margin: 0.5em auto;
+        h1 {
+            font-size: 100px;
+        }
+        h2 {
+            text-align: center;
+            font: $thin 25px $roboto;
+            color: $white;
+        }
+        p {
+            font: $light 16px $roboto;
+            color: $primary;
+        }
+        ul {
+            position: relative;
+            .CardList {
+                padding: 10px;
+                .CardItem {
+                    @include transition(.3s);
+                    background: $white;
+                    padding: 30px 25px;
+                    border-radius: 4px;
+                    p {
+                        font: $light 20px $roboto;
+                        margin-bottom: 5px;
+                        color: $primary;
+                    }
+                    li {
+                        list-style: none;
+                        font: $light 18px/140% $roboto;
+                        color: #666;
+                    }
+                }
+                .CardItem:hover {
+                    -webkit-transform: translate(-5px, 0);
+                    cursor: pointer;
+                    box-shadow: 0 0 30px #444;
+                }
+            }
         }
     }
 }

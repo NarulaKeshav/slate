@@ -1,11 +1,11 @@
 // Color Variable Declarations
 $white: #FFFFFF;
-$darker: #151515;
-$dark: #222;
+$darker: #222A39;
+$dark: #2E3747;
 
 // Main colors
-$primary: #0084FF;
-$secondary: #007BED;
+$primary: #00C6FB;
+$secondary: #005BEA;
 
 // Font Declarations
 $roboto: 'Roboto', sans-serif;
@@ -27,6 +27,8 @@ $lavender: #CB93EE;
 $carrot: #F77E51;
 $rose: #EC87BF;
 $royal: #9398EC;
+
+$cardColor: #10151F;
 
 // Mixin for hover transitions
 @mixin transition ($seconds) {
