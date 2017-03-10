@@ -18,3 +18,4 @@ yarn-error.log*
 
 # Sass Cache
 /public/scss/.sass-cache
+/public/css/design.css.map
