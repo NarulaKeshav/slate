@@ -1,5 +1,5 @@
 body {
-    background: $darker;
+    background: linear-gradient(45deg, $gray, #EEE);
     .container {
         width: 60%;
     }
@@ -9,78 +9,114 @@ body {
 .App {
     .header-input {
         padding: 4em 3em;
-        // background: $primary;
-        // background-image: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
-        // background-image: linear-gradient(45deg, #fa709a 0%, #fee140 100%);
-        background: linear-gradient(45deg, $primary 0%, $secondary 75%);
         .AppLogo {
-            height: 50px;
+            height: 75px;
             margin: 0 auto;
             margin-bottom: 3em;
-            border: 2px solid rgba(255,255,255,0.7);
-            border-radius: 6px;
+            background: linear-gradient(45deg, $primary 0%, $secondary 85%);
+            border-radius: 8px;
+            // box-shadow: 0 8px 20px rgba(0,0,0,0.06);
         }
         input.form-control {
             @include transition(.3s);
-            background: $dark;
-            box-shadow: none;
+            background: $white;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.02);
             border: none;
             padding: 35px 25px;
             border-radius: 4px;
-            font: $thin 22px $roboto;
-            color: $white;
+            font: $light 22px $roboto;
+            color: #555;
         }
-        input.form-control:hover,
         input.form-control:focus {
-            background: $darker;
-            box-shadow: 0 10px 35px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 35px rgba(0,0,0,0.07);
         }
-        ::-webkit-input-placeholder {
-            color: rgba(255,255,255,0.7);
+        input.form-control::-webkit-input-placeholder {
+            color: #AAA;
+        }
+        .TaskType {
+            position: absolute;
+            right: 50px;
+            top: 20px;
+            background: #EEE;
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            span {
+                position: relative;
+                top: 5px;
+                left: 9px;
+                width: 10px;
+                text-align: center;
+                // background: red;
+                font-size: 13px;
+                color: #777;
+            }
         }
     }
 }
 .TaskList {
-    padding-top: 2em;
+    padding-bottom: 8em;
     .TaskRange {
-        padding: 2em 1em 1em;
+        padding: 0 1em 1em;
         margin: 0.5em auto;
         h1 {
             font-size: 100px;
         }
         h2 {
             text-align: center;
-            font: $thin 25px $roboto;
-            color: $white;
+            font: $thin 22px $roboto;
+            color: #666;
         }
-        p {
-            font: $light 16px $roboto;
+        h4 {
+            text-align: center;
+            font: $light 24px $roboto;
             color: $primary;
         }
         ul {
             position: relative;
+            left: -20px;
             .CardList {
                 padding: 10px;
                 .CardItem {
                     @include transition(.3s);
                     background: $white;
+                    box-shadow: 0 0 30px #F0F0F0;
                     padding: 30px 25px;
                     border-radius: 4px;
                     p {
-                        font: $light 20px $roboto;
+                        font: $light 18px $roboto;
                         margin-bottom: 5px;
                         color: $primary;
                     }
                     li {
                         list-style: none;
-                        font: $light 18px/140% $roboto;
+                        font: $normal 15px/140% $roboto;
                         color: #666;
+                        text-transform: uppercase;
+                    }
+                    .TaskIcon {
+                        position: absolute;
+                        right: 30px;
+                        top: 36px;
+                        background: $primary;
+                        height: 40px;
+                        width: 40px;
+                        border-radius: 50px;
+                        span {
+                            width: 20px;
+                            text-align: center;
+                            position: relative;
+                            left: 10px;
+                            top: 10px;
+                            font-size: 13px;
+                            color: $white;
+                        }
                     }
                 }
                 .CardItem:hover {
-                    -webkit-transform: translate(-5px, 0);
+                    // -webkit-transform: translate(-5px, 0);
                     cursor: pointer;
-                    box-shadow: 0 0 30px #444;
+                    box-shadow: 0 8px 30px #E5E5E5;
                 }
             }
         }
