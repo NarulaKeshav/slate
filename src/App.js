@@ -6,29 +6,19 @@ import TaskBlock from './components/TaskBlock';
 import '../public/css/design.css';
 
 class App extends Component {
+
+    // Construct with object on tasks/items
     constructor() {
         super();
         this.state = {
             todayTasks: {
-                // From 12-3
-                twelveToThree: {
-                    range: '12–3 PM',
-                    items: []
-                },
-                // From 4-7
-                fourToSeven: {
-                    range: '4–7 PM',
-                    items: []
-                },
-                // From 8-11
-                eightToEleven: {
-                    range: '8–11 PM',
-                    items: []
-                }
+                items: []
             }
         };
         this._addTask = this._addTask.bind(this);
     }
+
+    // Render function
     render() {
         return (
             <div className="App">
@@ -41,45 +31,38 @@ class App extends Component {
     /**
    * Adds task to the todayTasks state
    * @param {object} task
-   * [ { time: '3-4', items: [] } ]
+   * [{start: 2, end: 3, do: 'something'}]
    */
     _addTask(task) {
         let tasks = this.state.todayTasks;
 
         // Pushes and add and array to the end of 'taskArr'
-        let taskArr = tasks[task[0].timeRange].items;
+        let taskItems = tasks.items;
+        let currentTask = task[0];
 
-        // Push items to the array
-        for (let item of task) {
-            taskArr.push({
-                time: item.time,
-                do : item.do
-                    }
-                );
-        }
+        // Add to Array
+        taskItems.push({
+            time: currentTask.time,
+            startTime: currentTask.startTime,
+            endTime: currentTask.endTime,
+            task: currentTask.task,
+            taskIcon: currentTask.taskIcon
+        });
+
+        // Sort by startTime
+        this.sortTasks(taskItems);
 
         // Updates the state
         this.setState({todayTasks: tasks});
     }
-}
+
+    sortTasks = (arr) => {
+        return arr.sort((a,b) => {
+            let x = a['startTime'];
+            let y = b['startTime'];
+            return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+        });
+    }
+ }
 
 export default App;
-
-/*
-let todayTasks: {
-  twelveToThree: {
-    twelve: {
-      items: ['Read book', 'Do homework']
-    },
-    one: {
-      items: ['Read book', 'Do homework']
-    },
-    two: {
-      items: ['Read book', 'Do homework']
-    },
-    three: {
-      items: ['Read book', 'Do homework']
-    }
-  }
-}
- */
