@@ -2,6 +2,13 @@ import React, {Component} from 'react';
 import Logo from '../../public/img/logo.svg'
 
 class InputItem extends Component {
+    constructor() {
+        super();
+        this.state = {
+            taskIcon: 'fa fa-question',
+            taskTypes: ['coffee', 'meeting', 'lunch', 'drinks', 'interview', 'study', 'hangout', 'party', 'hike', 'hiking', 'bike', 'biking']
+        };
+    }
     render() {
         return (
             <div className="col-md-12 header-input">
@@ -9,7 +16,10 @@ class InputItem extends Component {
                     <img className="AppLogo" src={Logo} alt="Slate logo"/>
                 </div>
                 <div className="col-md-8 col-md-offset-2">
-                    <input className="form-control" placeholder="12-1: Meeting with team, Party " onKeyPress={this._onInputEnter.bind(this)}/>
+                    <div className="TaskType">
+                        <span className={this.state.taskIcon}></span>
+                    </div>
+                    <input className="form-control" placeholder="From 12 to 1: Lunch with the Team" onKeyPress={this._onInputEnter.bind(this)} onKeyUp={e => {this._changeTaskIconOnKeyup(e)}}/>
                 </div>
             </div>
         )
@@ -22,67 +32,115 @@ class InputItem extends Component {
     _onInputEnter(e) {
         if (e.key === 'Enter') {
             let inputValue = e.target.value;
-            // If starts from: from
-            // - Task
-            // If starts from: at
-            // - Reminder
             e.target.value = '';
-            let enteredTask = this._parseInput(inputValue.toLowerCase());
+            this.setState({taskIcon: 'fa fa-question'})
+            let enteredTask = this._parseInput(inputValue);
             this.props.addTask(enteredTask);
         }
     }
 
     _parseInput(value) {
         // need to grab "FROM" and then the time
-        let taskArr = value.split(': ');
-        let taskList = taskArr[1].split(', ');
+        // let taskArr = value.split(':');
+        // let inputTime = taskArr[0].trim().toLowerCase();
+        // let task = taskArr[1].trim();
+        let colon = this._lastColon(value);
+        let inputTime = this._trim(value.slice(0, colon).toLowerCase());
+        let task = this._trim(value.slice(colon + 1));
+        let taskIcon = this.state.taskIcon;
 
-        // Get Tasks
-        let taskTime = '';
-        if (taskArr[0].startsWith('from')) {
-            taskTime = taskArr[0].substring(taskArr[0].indexOf('from') + 4);
-        } else if (taskArr[0].startsWith('at')) {
-            taskTime = taskArr[0].substring(taskArr[0].indexOf('at') + 4);
-        }
-
-        // Get the Time Range
-        let timeRange = this._findRange(taskTime.trim());
+        // Extracting time
+        let taskTime = inputTime.substring(inputTime.indexOf('from') + 4);
 
         // Get Start and End Time
         let startTime = this._startTime(taskTime.trim());
         let endTime = this._endTime(taskTime.trim());
-        let time = startTime + endTime;
-        return [
-            {
-                timeRange,
-                time,
-                do : taskList
-        }
-        ];
-    }
+        let time = `${startTime}–${endTime} PM`;
 
-    _findRange(timePeriod) {
-        // timePeriod: 3-6 or 3 to 6
-        // Returns 'twelveToThree', 'fourToSeven', or 'eightToEleven'
-        let startTime = parseInt(timePeriod.substring(0, 1), 10); // 3 or 4
-        return (startTime === 12 || startTime === 1 || startTime === 2 || startTime === 3)
-            ? 'twelveToThree'
-            : (startTime === 4 || startTime === 5 || startTime === 6 || startTime === 7)
-                ? 'fourToSeven'
-                : 'eightToEleven';
+        // Return array of object with time, startTime, endTime, task
+        let taskObj = {
+            time,
+            startTime,
+            endTime,
+            task,
+            taskIcon
+        };
+        return [taskObj];
     }
 
     _startTime(timePeriod) {
-        console.log('timePeriod:', timePeriod);
-        let startTimeVal = timePeriod.substring(0, timePeriod.indexOf('-')); // 10:30–
-        // return startTimeVal + '–';
-        return `${startTimeVal}–`
+        return timePeriod.substring(0, timePeriod.indexOf('-'));
     }
 
     _endTime(timePeriod) {
-        let endTimeVal = timePeriod.substring(timePeriod.indexOf('-') + 1, timePeriod.length); // 11:30
-        // return endTimeVal + ' PM';
-        return `${endTimeVal} PM`;
+        return timePeriod.substring(timePeriod.indexOf('-') + 1, timePeriod.length);
+    }
+
+    _lastColon(inputValue) {
+        let i = inputValue.length - 1;
+        let semiFound = false;
+        while (i > 0 || !semiFound) {
+            if (inputValue.substring(i, i-1) === ':') {
+                return i-1;
+            } else i--;
+        }
+    }
+
+    _trim(str) {
+        return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+    }
+
+    _changeTaskIconOnKeyup(e) {
+        let input = e.target.value;
+        let tasks = this.state.taskTypes;
+        let index;
+        if (tasks.some(function(v) {
+            if (input.indexOf(v) > -1) {
+                // There's at least one
+                index = v;
+            }
+            return input.indexOf(v) >= 0;
+        })) {
+            let action = input.slice(input.indexOf(index));
+            let actionTerm = action.split(' ')[0];
+            this._findIcon(actionTerm.toLowerCase());
+        }
+    }
+
+    // 'coffee', 'meeting', 'lunch', 'drinks', 'interview', 'study', 'hangout', 'party', 'hike', 'hiking', 'bike', 'biking']
+    _findIcon(action) {
+        switch (action) {
+            case 'coffee':
+                this.setState({taskIcon: 'fa fa-coffee'});
+                break;
+            case 'meeting' || 'meet':
+                this.setState({taskIcon: 'fa fa-briefcase'});
+                break;
+            case 'lunch':
+                this.setState({taskIcon: 'fa fa-cutlery'});
+                break;
+            case 'drinks' || 'drink' || 'party':
+                this.setState({taskIcon: 'fa fa-beer'});
+                break;
+            case 'interview':
+                this.setState({taskIcon: 'fa fa-black-tie'});
+                break;
+            case 'study' || 'studying':
+                this.setState({taskIcon: 'fa fa-book'});
+                break;
+            case 'hangout':
+                this.setState({taskIcon: 'fa fa-paw'});
+                break;
+            case 'hike' || 'hiking':
+                this.setState({taskIcon: 'fa fa-globe'});
+                break;
+            case 'bike' || 'biking':
+                this.setState({taskIcon: 'fa fa-bicycle'});
+                break;
+            default:
+                this.setState({taskIcon: 'fa fa-question'});
+                break;
+        }
     }
 }
 

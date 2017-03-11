@@ -1,65 +1,37 @@
 import React from 'react';
 import TaskItem from './TaskItem';
-import Logo from '../../public/img/logo.svg'
 
 const TaskBlock = (props) => {
     let tasks = props.tasks;
-    let keyCounter = -1;
-    let randomKey = () => {
-        return++ keyCounter;
-    }
-    const earlyTasks = tasks.twelveToThree.items.map(task => {
-        const taskItems = task['do'].map(eachTask => {
-            return (<TaskItem name={eachTask} key={randomKey()}/>)
-        });
+    const dailyTasks = tasks.items.map(eachTask => {
         return (
             <div className="col-md-10 col-md-offset-1 CardList">
                 <div className="col-md-12 CardItem">
-                    <p>{task.time}</p>
-                    {taskItems}
-                </div>
-            </div>
-        )
-    });
-    // Mid
-    const midTasks = tasks.fourToSeven.items.map(task => {
-        const taskItems = task['do'].map(eachTask => {
-            return (<TaskItem name={eachTask} key={randomKey()}/>)
-        });
-        return (
-            <div className="col-md-10 col-md-offset-1 CardList">
-                <div className="col-md-12 CardItem">
-                    <p>{task.time}</p>
-                    {taskItems}
-                </div>
-            </div>
-        )
-    });
-    // Late
-    const lateTasks = tasks.eightToEleven.items.map(task => {
-        const taskItems = task['do'].map(eachTask => {
-            return (<TaskItem name={eachTask} key={randomKey()}/>)
-        });
-        return (
-            <div className="col-md-10 col-md-offset-1 CardList">
-                <div className="col-md-12 CardItem">
-                    <p>{task.time}</p>
-                    {taskItems}
+                    <p>{eachTask.time}</p>
+                    <TaskItem name={eachTask.task} key={eachTask.startTime} />
+                    <div className="TaskIcon">
+                        <span className={eachTask.taskIcon}></span>
+                    </div>
                 </div>
             </div>
         )
     });
 
+    var getTodaysDate = () => {
+        let monthArr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        let day = new Date().getDate();
+        let month = monthArr[new Date().getMonth()];
+        let year = new Date().getFullYear();
+        let date = `${month} ${day}, ${year}`;
+        return (
+            <h4>{date}</h4>
+        );
+    }
+
     // If/else
     var currentDisplay = () => {
-        let morningTasks = Object.keys(earlyTasks).length === 0;
-        let eveningTasks = Object.keys(midTasks).length === 0;
-        let laterTasks = Object.keys(lateTasks).length === 0;
-        console.log('1:', morningTasks);
-        console.log('2:', eveningTasks);
-        console.log('3:', laterTasks);
-        if (morningTasks && eveningTasks && laterTasks) {
-            console.log('show default');
+        let haveTasksToday = Object.keys(dailyTasks).length === 0;
+        if (haveTasksToday) {
             return (
                 <div className="TaskRange text-center">
                     <h1>🤘</h1>
@@ -67,13 +39,10 @@ const TaskBlock = (props) => {
                 </div>
             );
         } else {
-            console.log('show tasks');
             return (
                 <div className="TaskRange">
-                    <p>Today&apos;s Schedule</p>
-                    <ul>{earlyTasks}</ul>
-                    <ul>{midTasks}</ul>
-                    <ul>{lateTasks}</ul>
+                    {getTodaysDate()}
+                    <ul>{dailyTasks}</ul>
                 </div>
             );
         }
