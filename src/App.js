@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import InputItem from './components/InputItem';
 import TaskBlock from './components/TaskBlock';
-
-// Import CSS
 import '../public/css/design.css';
 
 class App extends Component {
